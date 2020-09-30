@@ -21,6 +21,9 @@ namespace A_Sample_API_In_DotNetCore
             //API End Points
             services.AddControllers();
 
+            //register the swagger generator, defining one or more swagger documents.
+            services.AddSwaggerGen();
+
             //setting up dependency injection for the ISampleRepo Interface
             services.AddScoped<ISampleRepo, SampleRepo>();
 
@@ -29,6 +32,16 @@ namespace A_Sample_API_In_DotNetCore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
